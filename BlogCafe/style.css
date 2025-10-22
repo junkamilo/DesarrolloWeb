@@ -1,0 +1,453 @@
+:root {
+    --fuenteHeading: 'PT Sans', sans-serif;
+    --fuenteParrafos: 'Open Sans', sans-serif;
+
+    /* --- Paleta Café Colombiano --- */
+    --primario-oscuro: #261F1A;  /* Grano Tostado Oscuro (Fondos, Footer) */
+    --primario: #784D3C;         /* Café (Botones, Acentos) */
+    --primario-claro: #A16B56;   /* Café con Leche (Hovers) */
+    --acento: #E0B973;           /* Dorado Premium (Destellos, Logo) */
+    --blanco-hueso: #F7F3F0;     /* Espuma (Fondo principal) */
+    --negro: #1A1A1A;            /* Texto principal */
+    --gris: #D1CFCB;             /* Bordes sutiles */
+    --blanco: #ffffff;           /* Texto en Header/Footer */
+
+    /* --- Sombras --- */
+    --sombra-calida: 0 8px 25px rgba(58, 46, 42, 0.15);
+    --sombra-calida-hover: 0 12px 30px rgba(58, 46, 42, 0.2);
+}
+
+/* --- Keyframes --- */
+@keyframes pulse-gold {
+    0% { text-shadow: 0 0 4px rgba(224, 185, 115, 0.7); }
+    50% { text-shadow: 0 0 12px rgba(224, 185, 115, 1); }
+    100% { text-shadow: 0 0 4px rgba(224, 185, 115, 0.7); }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Globales --- */
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+body {
+    font-family: var(--fuenteParrafos);
+    font-size: 1.6rem;
+    line-height: 2;
+    background-color: var(--blanco-hueso); /* Fondo de espuma */
+    color: var(--negro);
+    -webkit-font-smoothing: antialiased;
+}
+.contenedor {
+    width: min(90%, 120rem);
+    margin: 0 auto;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+h1, h2, h3, h4 {
+    font-family: var(--fuenteHeading);
+    line-height: 1.2;
+    color: var(--primario-oscuro);
+}
+h1 { font-size: 4.8rem; }
+h2 { font-size: 4rem; }
+h3 { font-size: 3.2rem; }
+h4 { font-size: 2.8rem; }
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; /* Bordes suaves para todas las imágenes */
+}
+
+/** Utilidades **/
+.no-margin { margin: 0; }
+.no-padding { padding: 0; }
+.centrar-texto { text-align: center; }
+
+/** Header **/
+.header {
+    min-height: 60rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("img/caffe.jpg");
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+/* Capa oscura para mejor legibilidad */
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(38, 31, 26, 0.7), rgba(38, 31, 26, 0.4));
+    z-index: 0;
+}
+.header__texto {
+    text-align: center;
+    color: var(--blanco);
+    margin-top: 5rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeIn 1s ease-out;
+}
+.header__texto h2, .header__texto p {
+    color: var(--blanco);
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+@media (min-width: 768px) {
+    .header__texto {
+        margin-top: 15rem;
+    }
+}
+.barra {
+    padding-top: 4rem;
+    position: relative;
+    z-index: 1;
+}
+
+@media (min-width: 768px) {
+    .barra {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+.logo {
+    color: var(--blanco);
+}
+.logo__nombre {
+    font-weight: 400;
+    color: var(--blanco);
+}
+/* Efecto dorado premium en el logo */
+.logo__bold {
+    font-weight: 700;
+    color: var(--acento);
+    animation: pulse-gold 3s infinite ease-in-out;
+}
+
+@media (min-width: 768px) {
+    .navegacion {
+        display: flex;
+        gap: 2rem;
+    }
+}
+.navegacion__enlace {
+    display: block;
+    text-align: center;
+    font-size: 1.8rem;
+    color: var(--blanco);
+    font-family: var(--fuenteHeading);
+    font-weight: 700;
+    padding: 1rem;
+    position: relative;
+}
+/* Animación de subrayado en navegación */
+.navegacion__enlace::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background-color: var(--acento);
+    border-radius: 2px;
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.navegacion__enlace:hover {
+    color: var(--acento);
+}
+.navegacion__enlace:hover::after {
+    width: 100%;
+}
+
+/** Contenido Principal (Index) **/
+@media (min-width: 768px) {
+    .contenido-principal {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        column-gap: 4rem;
+    }
+}
+
+/* --- Artículos del Blog (Cards) --- */
+.entrada {
+    border-bottom: none;
+    margin-bottom: 3rem;
+    background-color: var(--blanco);
+    border-radius: 12px;
+    box-shadow: var(--sombra-calida);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.5s ease-out backwards;
+}
+.entrada:last-of-type {
+    margin-bottom: 0;
+}
+.entrada:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--sombra-calida-hover);
+}
+.entrada__imagen {
+    overflow: hidden;
+}
+.entrada__imagen img {
+    border-radius: 8px 8px 0 0;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.entrada:hover .entrada__imagen img {
+    transform: scale(1.05);
+}
+.entrada__contenido {
+    padding: 3rem;
+}
+
+/* --- Botones --- */
+.boton {
+    display: block;
+    font-family: var(--fuenteHeading);
+    color: var(--blanco);
+    text-align: center;
+    padding: 1.2rem 3rem;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    border: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+@media (min-width: 768px) {
+    .boton {
+        display: inline-block;
+    }
+}
+.boton:hover {
+    cursor: pointer;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+/* Botón Primario (Café Oscuro) */
+.boton--primario {
+    background: linear-gradient(45deg, var(--primario-oscuro), #4d403a);
+}
+.boton--primario:hover {
+    background: linear-gradient(45deg, #4d403a, var(--primario-oscuro));
+}
+/* Botón Secundario (Café Claro) */
+.boton--secundario {
+    background-color: var(--primario);
+    background: linear-gradient(45deg, var(--primario), var(--primario-claro));
+}
+.boton--secundario:hover {
+    background: linear-gradient(45deg, var(--primario-claro), var(--primario));
+}
+
+/* --- Sidebar (Index) --- */
+.sidebar {
+    background-color: var(--blanco);
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: var(--sombra-calida);
+}
+.cursos {
+    list-style: none;
+}
+.widget-curso {
+    border-bottom: 1px solid var(--gris);
+    margin-bottom: 2rem;
+}
+.widget-curso:last-of-type {
+    border: none;
+    margin-bottom: 0;
+}
+.widget-curso__label {
+    font-family: var(--fuenteHeading);
+    font-weight: bold;
+    color: var(--primario-oscuro);
+}
+.widget-curso__info {
+    font-weight: normal;
+    color: var(--negro);
+}
+.widget-curso__label,
+.widget-curso__info {
+    font-size: 2rem;
+}
+
+/* --- Footer --- */
+.footer {
+    background-color: var(--primario-oscuro);
+    padding-bottom: 3rem;
+    margin-top: 4rem;
+    border-top: 5px solid var(--primario);
+}
+.footer .logo__nombre {
+    color: var(--blanco);
+}
+.footer .navegacion__enlace {
+    color: var(--blanco);
+}
+.footer .navegacion__enlace:hover {
+    color: var(--acento);
+}
+
+/** Sobre Nosotros (nosotros.html) **/
+.sobre-nosotros {
+    background-color: var(--blanco);
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: var(--sombra-calida);
+}
+@media (min-width: 768px) {
+    .sobre-nosotros {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 3rem;
+        align-items: center;
+    }
+}
+.sobre-nosotros__imagen img {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/** Entrada de Blog (entrada.html) **/
+main.contenedor > img {
+    border-radius: 12px;
+    box-shadow: var(--sombra-calida);
+    margin-bottom: 2rem;
+}
+main.contenedor > p {
+    color: #333; /* Texto ligeramente más suave para lectura larga */
+}
+
+/** Cursos (cursos.html) **/
+.curso {
+    padding: 3rem;
+    border-bottom: none;
+    margin-bottom: 3rem;
+    background-color: var(--blanco);
+    border-radius: 12px;
+    box-shadow: var(--sombra-calida);
+    animation: fadeIn 0.5s ease-out backwards;
+}
+@media (min-width: 768px) {
+    .curso {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        column-gap: 3rem;
+        align-items: center;
+    }
+}
+.curso:last-of-type {
+    border: none;
+    margin-bottom: 0;
+}
+.curso__label {
+    font-family: var(--fuenteHeading);
+    font-weight: bold;
+    color: var(--primario-oscuro);
+}
+.curso__info {
+    font-weight: normal;
+    color: var(--negro);
+}
+.curso__label,
+.curso__info {
+    font-size: 2rem;
+}
+.curso__descripcion {
+    color: #333;
+}
+
+/** Contacto (contacto.html) **/
+.contacto-bg {
+    background-image: url(../img/contacto.jpg);
+    height: 40rem;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 12px;
+    filter: saturate(1.1);
+}
+
+.formulario {
+    background-color: var(--blanco);
+    margin: -10rem auto 0 auto;
+    width: min(95%, 70rem);
+    padding: 5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    position: relative; /* Para que esté sobre el fondo */
+    z-index: 1;
+}
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+.campo__label {
+    font-family: var(--fuenteHeading);
+    font-weight: 700;
+    color: var(--primario);
+    padding-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+.campo__field {
+    flex: 1;
+    border: 1px solid var(--gris);
+    background-color: var(--blanco-hueso);
+    padding: 1.2rem;
+    border-radius: 6px;
+    font-size: 1.6rem;
+    font-family: var(--fuenteParrafos);
+    transition: all 0.3s ease;
+}
+.campo__field:focus {
+    outline: none;
+    border-color: var(--primario);
+    box-shadow: 0 0 0 3px var(--primario-claro);
+    background-color: var(--blanco);
+}
+.campo__field--textarea {
+    height: 20rem;
+    resize: vertical;
+}
+
+@media (min-width: 768px) {
+    .campo {
+        flex-direction: row;
+        align-items: center;
+    }
+    .campo__label {
+        flex: 0 0 9rem;
+        text-align: right;
+        padding-right: 2rem;
+        padding-bottom: 0;
+    }
+}
