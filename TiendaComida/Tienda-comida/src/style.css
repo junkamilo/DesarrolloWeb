@@ -1,0 +1,200 @@
+/* --- Importación de Módulos CSS --- */
+@import url("./css/header.css");
+@import url("./css/cardProducto.css");
+@import url("./css/btnHamburguesa.css");
+@import url("./css/footer.css");
+
+
+/* --- Variables Globales (Paleta) --- */
+:root {
+  --primary-color: #4CAF50; /* Verde fresco */
+  --primary-dark: #388E3C;  /* Verde más oscuro */
+  --accent-color: #fca311;  /* Naranja vibrante */
+  --accent-dark: #e8960e;   /* Naranja más oscuro */
+  --text-dark: #212121;     /* Oscuro (casi negro) */
+  --text-light: #f9f9f9;    /* Blanco (para fondos oscuros) */
+  --text-secondary: #757575; /* Gris para descripciones */
+  --bg-light: #ffffff;
+  --bg-grey: #f4f5f7;     /* Un gris más sutil */
+  --bg-dark: #2a3d31;      /* Verde musgo oscuro (para footer) */
+  --shadow-light: rgba(0, 0, 0, 0.08);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
+  --nav-height: 80px;
+  --card-border-radius: 16px;
+}
+
+/* --- Reseteo y Estilos Base --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth; /* Scroll suave al hacer clic en .cta-button */
+}
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased; /* Texto más nítido */
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --- Layout Principal --- */
+/*
+ * ARREGLO STICKY:
+ * Eliminamos 'display: grid' y 'grid-template-rows' de .app-layout.
+ * Esto permite que el '.nav' (position: sticky) se pegue 
+ * al viewport (ventana) en lugar de a su fila del grid.
+*/
+.app-layout {
+  width: 100%;
+  min-height: 100dvh;
+  /* El header (100dvh) y el main (auto) fluyen naturalmente */
+}
+
+/* --- Contenido Principal --- */
+.main-content {
+  width: 100%;
+  padding-top: 4rem; /* Espacio para que no se pegue al hero */
+  background-color: var(--bg-light);
+  /* Asegura que el footer no se solape */
+  position: relative;
+  z-index: 5;
+}
+
+
+/* --- Media Queries Globales --- */
+
+/* Tablet (para nav) */
+@media (max-width: 900px) {
+  .content-buscador {
+    width: 50%;
+    order: 3;
+    flex-basis: 100%;
+    margin-top: 0.5rem;
+  }
+  .nav {
+    flex-wrap: wrap;
+    height: auto;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  .logo-container {
+    order: 1;
+  }
+  .nav-actions {
+    order: 2;
+  }
+}
+
+/* Móvil (para nav y cards) */
+@media (max-width: 768px) {
+  /* Hero */
+  .hero-content h2 {
+    font-size: 2.8rem;
+  }
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+
+  /* Nav */
+  .content-buscador,
+  .nav-actions {
+    display: none; /* Oculta buscador y carrito */
+  }
+  .hamburger-menu {
+    display: flex; /* Muestra hamburguesa */
+    order: 2;
+  }
+  .logo-container {
+    order: 1;
+  }
+  .nav {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    height: var(--nav-height);
+    padding: 0 5%;
+  }
+  /* Si el nav está 'scrolled', mantenemos altura en móvil */
+  .nav.nav-scrolled {
+    height: var(--nav-height);
+  }
+
+  /* Cards */
+  .product-card {
+    flex: 0 0 240px; /* Tarjetas un poco más pequeñas en tablet */
+  }
+  .category-title,
+  .featured-title {
+    font-size: 1.8rem;
+  }
+  .featured-grid {
+    grid-template-columns: 1fr; /* Una columna en móvil */
+  }
+}
+
+/* Móvil Pequeño */
+@media (max-width: 480px) {
+  /* Hero */
+  .hero-content h2 {
+    font-size: 2.2rem;
+  }
+  .cta-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+  
+  /* Nav */
+  .logo-container .logo-icon {
+    display: none;
+  }
+  .logo-container,
+  .nav.nav-scrolled .logo-container {
+    font-size: 1.2rem;
+  }
+
+  /* Cards */
+  .product-card {
+    flex: 0 0 200px; /* Tarjetas más pequeñas en móvil */
+  }
+  .card-content {
+    padding: 0.75rem;
+  }
+  .product-name {
+    font-size: 1rem;
+  }
+  .product-price {
+    font-size: 1.1rem;
+  }
+}
+
+/* --- Keyframes (Animaciones) --- */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

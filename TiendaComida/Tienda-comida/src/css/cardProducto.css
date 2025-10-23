@@ -1,0 +1,194 @@
+/* --- Sección de Categoría (Carrusel) --- */
+.product-category {
+  width: 100%;
+  padding-bottom: 4rem; /* Espacio entre categorías */
+}
+
+.category-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+  padding-left: 5%; /* Alineado con el padding del nav */
+}
+
+/* --- Carrusel Horizontal --- */
+.product-carousel {
+  display: flex;
+  gap: 1.5rem; /* Espacio entre tarjetas */
+  overflow-x: auto; /* Scroll horizontal */
+  overflow-y: hidden;
+  padding: 1rem 5%; /* Padding para que las tarjetas no se peguen a los bordes */
+  scroll-snap-type: x mandatory; /* Snap-scrolling UX */
+  
+  /* Estilizando la barra de scroll */
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--bg-grey);
+}
+
+.product-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+.product-carousel::-webkit-scrollbar-track {
+  background: var(--bg-grey);
+  border-radius: 4px;
+}
+.product-carousel::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 4px;
+}
+
+/* --- ¡INNOVACIÓN! Sección de Ofertas (Grid) --- */
+.featured-section {
+  padding: 4rem 5%;
+  background-color: var(--bg-grey); /* Fondo de acento */
+}
+
+.featured-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 2rem;
+  text-align: center; /* Centrado para la sección de ofertas */
+}
+
+.featured-grid {
+  display: grid;
+  /* Grid responsivo: crea columnas de min 280px y max 1fr */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+/* * Sobrescribimos el 'flex-basis' de .product-card
+ * cuando está dentro del grid, para que sea fluido.
+*/
+.featured-grid .product-card {
+  flex: 1 1 280px; /* Permitir que crezca y se encoja */
+}
+/* --- Fin de la Innovación --- */
+
+
+/* --- Tarjeta de Producto (Diseño Base) --- */
+.product-card {
+  /* Ancho base para el carrusel */
+  flex: 0 0 280px; 
+  background-color: var(--bg-light);
+  border-radius: var(--card-border-radius);
+  box-shadow: 0 4px 15px var(--shadow-light);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  scroll-snap-align: start; /* Para el snap-scrolling */
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px var(--shadow-medium);
+}
+
+/* Contenedor de Imagen */
+.card-image-container {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que la imagen cubra */
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05); /* Sutil zoom al pasar el mouse */
+}
+
+/* Badge de Descuento / Novedad */
+.product-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 0.25rem 0.6rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 2; /* Encima de la imagen */
+}
+
+/* Botón "Añadir al Carrito" Innovado */
+.add-to-cart-btn {
+  position: absolute;
+  bottom: -25px; /* Comienza 50% oculto */
+  right: 16px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--accent-color);
+  color: var(--text-dark);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(252, 163, 17, 0.5);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición con "rebote" */
+  opacity: 0; /* Comienza invisible */
+  z-index: 3;
+}
+
+.add-to-cart-btn .icon-plus {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text-dark);
+  stroke-width: 3;
+}
+
+/* Animación del botón al pasar el mouse sobre la TARJETA */
+.product-card:hover .add-to-cart-btn {
+  transform: translateY(-38px); /* Sube a su posición final */
+  opacity: 1; /* Se hace visible */
+}
+
+.add-to-cart-btn:hover {
+  background-color: var(--accent-dark);
+  transform: translateY(-38px) scale(1.05); /* Resalta el botón */
+}
+
+/* Contenido de la Tarjeta (Info) */
+.card-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Ocupa el espacio restante */
+}
+
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.25rem;
+}
+
+.product-description {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  flex-grow: 1; /* Empuja el footer hacia abajo */
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-price {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--primary-color);
+}
