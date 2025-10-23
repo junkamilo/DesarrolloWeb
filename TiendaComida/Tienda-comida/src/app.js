@@ -1,10 +1,16 @@
+import Footer from './components/footer';
 import Header from './components/header';
-import  nav  from './components/nav';
+import Main from './components/main';
+
 import './style.css'
 //elegimos el elemento principal
+const contentBody = document.querySelector("body");
 const app = document.getElementById("app");
 app.classList.add("app-layout");
 
 //instanciamos los componentes
-const navar = nav();
 const header = Header();
+const main = Main();
+const footer = Footer();
+app.append(header,main,footer);
+contentBody.append(app);
