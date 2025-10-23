@@ -1,4 +1,8 @@
+import nav from "./nav";
+
+
 const Header = () => {
+    const navar = nav();
   // Crear elementos principales
   const header = document.createElement("header");
   const heroContent = document.createElement("div");
@@ -22,7 +26,7 @@ const Header = () => {
 
   // Estructura jerárquica
   heroContent.append(titulo, descripcion, boton);
-  header.appendChild(heroContent);
+  header.append(navar,heroContent);
 
   // Retornar el header completo
   return header;
