@@ -82,53 +82,6 @@
   fill: var(--primary-color);
 }
 
-/* --- Buscador --- */
-.content-buscador {
-  width: 40%;
-  display: flex;
-  background-color: var(--bg-grey);
-  border-radius: 50px;
-  overflow: hidden;
-  border: 2px solid transparent;
-  transition: border-color 0.3s ease;
-}
-
-.content-buscador:focus-within {
-  border-color: var(--primary-color);
-}
-
-.buscador {
-  width: 88%;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  padding: 0.8rem 1.2rem;
-  font-size: 0.9rem;
-  font-family: "Nunito Sans", sans-serif;
-  color: var(--text-dark);
-}
-
-.search-button {
-  width: 12%;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  color: #555;
-  transition: background-color 0.2s ease;
-}
-
-.search-button:hover {
-  background-color: #e0e0e0;
-}
-
-.search-button .icon-search {
-  width: 20px;
-  height: 20px;
-  stroke: var(--text-dark);
-}
-
 /* --- Carrito de Compras --- */
 .nav-actions {
   display: flex;

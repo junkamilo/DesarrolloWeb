@@ -1,8 +1,8 @@
 import nav from "./nav";
 
 
-const Header = () => {
-    const navar = nav();
+const Header = async () => {
+    const navar = await nav();
   // Crear elementos principales
   const header = document.createElement("header");
   const heroContent = document.createElement("div");

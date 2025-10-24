@@ -31,3 +31,29 @@ export const PostData = async (id, name, price) => {
     console.error("Error al agregar producto al carrito:", error);
   }
 };
+
+export const DeleteData = async (id) => {
+  try {
+    if (!id) throw new Error("Se requiere un ID para eliminar el producto.");
+
+    const res = await fetch(`http://localhost:4000/carritoCompras/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error HTTP ${res.status}: ${res.statusText}`);
+    }
+
+    // jsonplaceholder retorna un objeto vacío al eliminar
+    const data = await res.json();
+    console.log(`Producto con ID ${id} eliminado correctamente`, data);
+
+    return data;
+  } catch (error) {
+    console.error("Error al eliminar producto del carrito:", error);
+    return null;
+  }
+};

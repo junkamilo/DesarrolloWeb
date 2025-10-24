@@ -1,3 +1,5 @@
+import { DeleteData, GetData } from "../data/data";
+
 const closeIconSVG = `
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="28" height="28">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -9,25 +11,23 @@ const trashIconSVG = `
 </svg>`;
 
 /**
- * Función auxiliar para crear un item de producto en el carrito (simulado)
- * @param {string} imgSrc - URL de la imagen (placeholder)
- * @param {string} name - Nombre del producto
- * @param {string} price - Precio del producto
- * @param {number} quantity - Cantidad
+ * Crear un item del carrito a partir de la data
  */
-const _createCartItem = (imgSrc, name, price, quantity) => {
+const _createCartItem = (product) => {
+  const { id ,img, name, price, quantity = 1 } = product;
+
   const cartItem = document.createElement("div");
   cartItem.className = "cart-item";
 
   // Imagen
   const imgContainer = document.createElement("div");
   imgContainer.className = "cart-item-image";
-  const img = document.createElement("img");
-  img.src = imgSrc;
-  img.alt = name;
-  imgContainer.appendChild(img);
+  const imgEl = document.createElement("img");
+  imgEl.src = img || "https://placehold.co/80x80?text=Producto";
+  imgEl.alt = name;
+  imgContainer.appendChild(imgEl);
 
-  // Info (Nombre y Precio)
+  // Info
   const info = document.createElement("div");
   info.className = "cart-item-info";
   const infoName = document.createElement("p");
@@ -35,14 +35,13 @@ const _createCartItem = (imgSrc, name, price, quantity) => {
   infoName.textContent = name;
   const infoPrice = document.createElement("p");
   infoPrice.className = "cart-item-price";
-  infoPrice.textContent = price;
+  infoPrice.textContent = `$${price}`;
   info.append(infoName, infoPrice);
 
-  // Acciones (Cantidad y Eliminar)
+  // Acciones
   const actions = document.createElement("div");
   actions.className = "cart-item-actions";
 
-  // Selector de cantidad
   const quantitySelector = document.createElement("div");
   quantitySelector.className = "quantity-selector";
   const btnMinus = document.createElement("button");
@@ -56,7 +55,6 @@ const _createCartItem = (imgSrc, name, price, quantity) => {
   btnPlus.innerHTML = "+";
   quantitySelector.append(btnMinus, quantityDisplay, btnPlus);
 
-  // Botón de eliminar
   const removeBtn = document.createElement("button");
   removeBtn.className = "remove-item-btn";
   removeBtn.innerHTML = trashIconSVG;
@@ -64,152 +62,107 @@ const _createCartItem = (imgSrc, name, price, quantity) => {
 
   actions.append(quantitySelector, removeBtn);
 
-  // Ensamblar item
+  removeBtn.addEventListener("click",(e)=>{
+    DeleteData(id);
+    
+  })
+
   cartItem.append(imgContainer, info, actions);
+
   return cartItem;
 };
 
 /**
- * Componente Principal del Modal de Carrito
- * Crea el DOM del modal y el overlay.
- * Devuelve los elementos y un método 'init' para añadir los listeners.
+ * Modal de Carrito
  */
-export const CartModal = () => {
-  // --- 1. Crear Overlay ---
+export const CartModal = async () => {
+  const productos = await GetData("carritoCompras"); // Trae los productos
+
   const overlay = document.createElement("div");
   overlay.className = "cart-overlay";
-  overlay.id = "cart-overlay";
 
-  // --- 2. Crear Modal (Sidebar) ---
   const modal = document.createElement("aside");
   modal.className = "cart-modal";
-  modal.id = "cart-modal";
 
-  // --- 2a. Header del Modal ---
+  // Header
   const modalHeader = document.createElement("div");
   modalHeader.className = "cart-header";
-
   const headerTitle = document.createElement("h3");
   headerTitle.textContent = "Mi Carrito";
-
   const closeButton = document.createElement("button");
   closeButton.className = "cart-close-btn";
-  closeButton.id = "cart-close-btn";
   closeButton.innerHTML = closeIconSVG;
   closeButton.setAttribute("aria-label", "Cerrar carrito");
-
   modalHeader.append(headerTitle, closeButton);
 
-  // --- 2b. Body del Modal (Lista de productos) ---
+  // Body
   const modalBody = document.createElement("div");
   modalBody.className = "cart-body";
+  const itemList = document.createElement("div");
+  itemList.className = "cart-item-list";
 
-  // --- (Simulación) ---
-  // Cambia esto por la lógica real.
-  const hasItems = true;
-
-  if (hasItems) {
-    const itemList = document.createElement("div");
-    itemList.className = "cart-item-list";
-
-    // Productos simulados
-    itemList.appendChild(
-      _createCartItem(
-        "https://placehold.co/80x80/588157/ffffff?text=Tomate",
-        "Tomate Rama",
-        "$2.20",
-        2
-      )
-    );
-    itemList.appendChild(
-      _createCartItem(
-        "https://placehold.co/80x80/fca311/333333?text=Naranja",
-        "Naranja de Zumo",
-        "$3.00",
-        1
-      )
-    );
-    itemList.appendChild(
-      _createCartItem(
-        "https://placehold.co/80x80/d08c60/ffffff?text=Lentejas",
-        "Lentejas Pardinas",
-        "$1.80",
-        3
-      )
-    );
-
-    modalBody.appendChild(itemList);
+  if (productos.length > 0) {
+    productos.forEach((p) => {
+      const cartItem = _createCartItem(p);
+      itemList.appendChild(cartItem);
+    });
   } else {
-    const emptyMessage = document.createElement("p");
-    emptyMessage.className = "cart-empty-message";
-    emptyMessage.textContent = "Tu carrito está vacío.";
-    modalBody.appendChild(emptyMessage);
+    const emptyMsg = document.createElement("p");
+    emptyMsg.className = "cart-empty-message";
+    emptyMsg.textContent = "Tu carrito está vacío.";
+    itemList.appendChild(emptyMsg);
   }
-  // --- Fin Simulación ---
 
-  // --- 2c. Footer del Modal (Subtotal y Checkout) ---
+  modalBody.appendChild(itemList);
+
+  // Footer
   const modalFooter = document.createElement("div");
   modalFooter.className = "cart-footer";
-
   const subtotal = document.createElement("div");
   subtotal.className = "cart-subtotal";
   const subtotalLabel = document.createElement("span");
   subtotalLabel.textContent = "Subtotal";
   const subtotalValue = document.createElement("span");
-  subtotalValue.textContent = "$10.60"; // Valor simulado
+  subtotalValue.textContent = `$${productos.reduce((acc, p) => acc + p.price * (p.quantity || 1), 0)}`;
   subtotal.append(subtotalLabel, subtotalValue);
 
   const checkoutButton = document.createElement("a");
   checkoutButton.className = "cart-checkout-button";
-  checkoutButton.href = "#"; // Enlace a la página de checkout
+  checkoutButton.href = "#";
   checkoutButton.textContent = "Finalizar Compra";
 
   modalFooter.append(subtotal, checkoutButton);
 
-  // --- 3. Ensamblar Modal ---
   modal.append(modalHeader, modalBody, modalFooter);
 
-  /**
-   * Método de inicialización
-   * Busca los triggers y añade los listeners para abrir/cerrar.
-   * @param {string} triggerSelector - El selector del botón que abre el modal (ej: ".cart-button")
-   * @param {string} appRootSelector - El selector del root de la app (ej: "body" o "#app")
-   */
   const init = (triggerSelector, appRootSelector) => {
     const trigger = document.querySelector(triggerSelector);
     const appRoot = document.querySelector(appRootSelector);
-
     if (!trigger || !appRoot) {
-      console.error(
-        "No se pudo inicializar el modal del carrito. Trigger o Root no encontrados."
-      );
+      console.error("No se pudo inicializar el modal del carrito. Trigger o Root no encontrados.");
       return;
     }
 
-    // Añadir modal y overlay al DOM (ocultos)
     appRoot.append(overlay, modal);
 
-    // Listeners para ABRIR
+    // Abrir modal
     trigger.addEventListener("click", (e) => {
       e.preventDefault();
       overlay.classList.add("active");
       modal.classList.add("active");
     });
 
-    // Listeners para CERRAR
+    // Cerrar modal
     const closeAll = () => {
       overlay.classList.remove("active");
       modal.classList.remove("active");
     };
-
     closeButton.addEventListener("click", closeAll);
     overlay.addEventListener("click", closeAll);
   };
 
-  // Devuelve el método init y los elementos (por si se necesitan)
-  return {
-    init,
-  };
+  return { init };
 };
 
 export default CartModal;
+

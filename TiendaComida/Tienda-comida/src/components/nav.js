@@ -1,20 +1,47 @@
-import CartModal from "./modalCarritoCompras";
+// nav.js
+import { GetData } from "../data/data";
 
-const nav = () => {
-  // Crear elementos principales
+const nav = async () => {
+  //instanciamos la data de los productos
+  const dataGranos = await GetData("granos");
+  const dataVerduras = await GetData("verduras");
+  const dataFrutas = await GetData("frutas");
+  const dataLacteos = await GetData("productos_lacteos");
+  const dataProteinas = await GetData("proteinas");
+
+  const filtroProductos = [
+    ...dataGranos,
+    ...dataVerduras,
+    ...dataFrutas,
+    ...dataLacteos,
+    ...dataProteinas,
+  ];
+
+  // --- Crear elementos principales ---
   const navar = document.createElement("nav");
+  navar.id = "nav";
+  navar.className = "nav";
+
   const logoContainer = document.createElement("a");
   const buscador = document.createElement("div");
   const inputSearch = document.createElement("input");
   const buttonSearch = document.createElement("button");
-  const svgSearch = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  const pathSearch = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  const svgSearch = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg"
+  );
+  const pathSearch = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "path"
+  );
 
-  // Cambiado a singular
   const navAction = document.createElement("div");
   const cartButton = document.createElement("a");
   const svgCart = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  const pathCart = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  const pathCart = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "path"
+  );
   const cartText = document.createElement("span");
   const cartBadge = document.createElement("span");
 
@@ -23,11 +50,7 @@ const nav = () => {
   const bar2 = document.createElement("span");
   const bar3 = document.createElement("span");
 
-  // --- Atributos y clases ---
-  navar.id = "nav";
-  navar.className = "nav";
-
-  // Efecto al hacer scroll
+  // --- Efecto al hacer scroll ---
   window.addEventListener("scroll", () => {
     if (window.scrollY > 50) {
       navar.classList.add("nav-scrolled");
@@ -52,15 +75,63 @@ const nav = () => {
   inputSearch.className = "buscador";
   inputSearch.placeholder = "Buscar granos, verduras, frutas...";
 
+  // --- Evento del buscador ---
+  inputSearch.addEventListener("input", (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    searchResults.innerHTML = ""; // Limpia resultados anteriores
+
+    
+    if (query === "") {
+      searchResults.classList.remove("active");
+    } else {
+      searchResults.classList.add("active");
+    }
+
+    const resultados = filtroProductos.filter(
+      (producto) =>
+        producto.nombre && producto.nombre.toLowerCase().includes(query)
+    );
+
+    if (resultados.length === 0) {
+      const mensaje = document.createElement("p");
+      mensaje.textContent = "Sin resultados";
+      mensaje.className = "no-results";
+      searchResults.appendChild(mensaje);
+    } else {
+      resultados.forEach((producto) => {
+        const item = document.createElement("div");
+        item.className = "search-item";
+        item.textContent = `${
+          producto.nombre
+        } - $${producto.precio.toLocaleString()}`;
+
+        // Acción al hacer clic (por ejemplo, redirigir o mostrar detalle)
+        item.addEventListener("click", () => {
+          console.log("Seleccionaste:", producto);
+          inputSearch.value = producto.nombre;
+          searchResults.style.display = "none";
+        });
+
+        searchResults.appendChild(item);
+      });
+    }
+
+    // Mostrar la caja
+    searchResults.style.display = "block";
+  });
+
   buttonSearch.className = "search-button";
   buttonSearch.setAttribute("aria-label", "Buscar");
+
+  const searchResults = document.createElement("div");
+  searchResults.className = "search-results";
+  searchResults.style.display = "none";
 
   svgSearch.classList.add("icon-search");
   svgSearch.setAttribute("fill", "none");
   svgSearch.setAttribute("viewBox", "0 0 24 24");
   svgSearch.setAttribute("stroke-width", "2.5");
   svgSearch.setAttribute("stroke", "currentColor");
-
   pathSearch.setAttribute("stroke-linecap", "round");
   pathSearch.setAttribute("stroke-linejoin", "round");
   pathSearch.setAttribute(
@@ -70,11 +141,10 @@ const nav = () => {
 
   svgSearch.appendChild(pathSearch);
   buttonSearch.appendChild(svgSearch);
-  buscador.append(inputSearch, buttonSearch);
+  buscador.append(inputSearch, buttonSearch, searchResults);
 
-  // --- Acción (carrito) ---
+  // --- Acción carrito ---
   navAction.className = "nav-action";
-
   cartButton.href = "#";
   cartButton.className = "cart-button";
 
@@ -92,22 +162,17 @@ const nav = () => {
   );
 
   svgCart.appendChild(pathCart);
-
   cartText.className = "cart-text";
   cartText.textContent = "Carrito";
-
   cartBadge.className = "cart-badge";
   cartBadge.textContent = "3";
-
   cartButton.append(svgCart, cartText, cartBadge);
   navAction.appendChild(cartButton);
 
   // --- Hamburguesa ---
   hamburger.className = "hamburger-menu";
-  hamburger.id = "hamburger-menu";
   [bar1, bar2, bar3].forEach((bar) => (bar.className = "bar"));
   hamburger.append(bar1, bar2, bar3);
-
   hamburger.addEventListener("click", function () {
     this.classList.toggle("active");
   });
@@ -115,14 +180,7 @@ const nav = () => {
   // --- Ensamblar todo ---
   navar.append(logoContainer, buscador, navAction, hamburger);
 
-  // --- Inicializar modal del carrito ---
-  requestAnimationFrame(() => {
-    const miCarrito = CartModal();
-    miCarrito.init(".nav-action", "body");
-  });
-
   return navar;
 };
 
 export default nav;
-

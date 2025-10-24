@@ -361,14 +361,14 @@
   ],
   "carritoCompras": [
     {
-      "id": "4774",
-      "name": "Arroz blanco",
-      "price": 3500
+      "id": "104e",
+      "name": "Cebolla cabezona",
+      "price": 1800
     },
     {
-      "id": "a814",
-      "name": "Lentejas",
-      "price": 4200
+      "id": "48bd",
+      "name": "Manzana roja",
+      "price": 3200
     }
   ]
 }
