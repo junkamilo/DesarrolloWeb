@@ -48,7 +48,7 @@ export const SectionVerduras = async () => {
   verduras.forEach(({ nombre, precio, descripcion }) => {
     carousel.append(
       Card({
-        colorBadge: "#d08c60",
+        colorBadge: "#28a72fff",
         img: `https://placehold.co/280x200/d08c60/ffffff?text=${nombre}`,
         alt: "Lentejas",
         name: nombre,

@@ -359,16 +359,5 @@
       "descripcion": "Producto práctico y económico, ideal para desayunos o hot dogs."
     }
   ],
-  "carritoCompras": [
-    {
-      "id": "104e",
-      "name": "Cebolla cabezona",
-      "price": 1800
-    },
-    {
-      "id": "48bd",
-      "name": "Manzana roja",
-      "price": 3200
-    }
-  ]
+  "carritoCompras": []
 }

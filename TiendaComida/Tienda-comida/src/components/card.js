@@ -1,8 +1,9 @@
 import { PostData } from "../data/data";
+import Alert from "../helpers/swerAlert";
 
 export const Card = ({
   badge = "",
-  colorBadge = "#d08c60",
+  colorBadge = "",
   img = "https://placehold.co/280x200/d08c60/ffffff?text=Producto",
   alt = "Producto",
   name = "Nombre del producto",
@@ -53,7 +54,10 @@ export const Card = ({
   // Botón de agregar
   buttonAdd.className = "add-to-cart-btn";
   buttonAdd.setAttribute("aria-label", `Agregar ${name} al carrito`);
+  const alerta = new Alert();
+  
   buttonAdd.addEventListener("click", () => {
+    alerta.success(`Tu producto ${name} fue agregado al carrito`);
     PostData(id, name, price);
   });
 

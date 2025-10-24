@@ -1,3 +1,4 @@
+import Alert from "../helpers/swerAlert";
 import nav from "./nav";
 
 
@@ -23,7 +24,12 @@ const Header = async () => {
   boton.href = "#main";
   boton.className = "cta-button";
   boton.textContent = "Empezar a Comprar";
+  const alert  =new Alert();
+  boton.addEventListener("click",()=>{
+    //instanciamos la clase alert
+    alert.info();    
 
+  })
   // Estructura jerárquica
   heroContent.append(titulo, descripcion, boton);
   header.append(navar,heroContent);
