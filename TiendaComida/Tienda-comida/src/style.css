@@ -3,6 +3,7 @@
 @import url("./css/cardProducto.css");
 @import url("./css/btnHamburguesa.css");
 @import url("./css/footer.css");
+@import url("./css/cardCompras.css");
 
 
 /* --- Variables Globales (Paleta) --- */
@@ -47,18 +48,9 @@ img {
   height: auto;
   display: block;
 }
-
-/* --- Layout Principal --- */
-/*
- * ARREGLO STICKY:
- * Eliminamos 'display: grid' y 'grid-template-rows' de .app-layout.
- * Esto permite que el '.nav' (position: sticky) se pegue 
- * al viewport (ventana) en lugar de a su fila del grid.
-*/
 .app-layout {
   width: 100%;
   min-height: 100dvh;
-  /* El header (100dvh) y el main (auto) fluyen naturalmente */
 }
 
 /* --- Contenido Principal --- */

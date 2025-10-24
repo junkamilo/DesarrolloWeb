@@ -7,10 +7,9 @@ import './style.css'
 const contentBody = document.querySelector("body");
 const app = document.getElementById("app");
 app.classList.add("app-layout");
-
 //instanciamos los componentes
 const header = Header();
-const main = Main();
+const main = await Main();
 const footer = Footer();
 app.append(header,main,footer);
 contentBody.append(app);

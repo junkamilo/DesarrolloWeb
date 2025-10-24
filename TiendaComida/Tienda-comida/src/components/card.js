@@ -1,3 +1,5 @@
+import { PostData } from "../data/data";
+
 export const Card = ({
   badge = "",
   colorBadge = "#d08c60",
@@ -5,7 +7,8 @@ export const Card = ({
   alt = "Producto",
   name = "Nombre del producto",
   description = "Descripción del producto",
-  price = "$0.00"
+  price = "$0.00",
+  id,
 } = {}) => {
   // Crear los elementos principales
   const card = document.createElement("div");
@@ -14,7 +17,10 @@ export const Card = ({
   const imageEl = document.createElement("img");
   const buttonAdd = document.createElement("button");
   const svgPlus = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  const pathPlus = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  const pathPlus = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "path"
+  );
 
   const content = document.createElement("div");
   const nameEl = document.createElement("h3");
@@ -47,6 +53,9 @@ export const Card = ({
   // Botón de agregar
   buttonAdd.className = "add-to-cart-btn";
   buttonAdd.setAttribute("aria-label", `Agregar ${name} al carrito`);
+  buttonAdd.addEventListener("click", () => {
+    PostData(id, name, price);
+  });
 
   svgPlus.classList.add("icon-plus");
   svgPlus.setAttribute("viewBox", "0 0 24 24");

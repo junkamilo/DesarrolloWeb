@@ -1,3 +1,5 @@
+import CartModal from "./modalCarritoCompras";
+
 const nav = () => {
   // Crear elementos principales
   const navar = document.createElement("nav");
@@ -8,7 +10,8 @@ const nav = () => {
   const svgSearch = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   const pathSearch = document.createElementNS("http://www.w3.org/2000/svg", "path");
 
-  const navActions = document.createElement("div");
+  // Cambiado a singular
+  const navAction = document.createElement("div");
   const cartButton = document.createElement("a");
   const svgCart = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   const pathCart = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -24,7 +27,16 @@ const nav = () => {
   navar.id = "nav";
   navar.className = "nav";
 
-  // Logo
+  // Efecto al hacer scroll
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 50) {
+      navar.classList.add("nav-scrolled");
+    } else {
+      navar.classList.remove("nav-scrolled");
+    }
+  });
+
+  // --- Logo ---
   logoContainer.href = "#";
   logoContainer.className = "logo-container";
   logoContainer.innerHTML = `
@@ -34,7 +46,7 @@ const nav = () => {
     Mercado Fresco
   `;
 
-  // Buscador
+  // --- Buscador ---
   buscador.className = "content-buscador";
   inputSearch.type = "search";
   inputSearch.className = "buscador";
@@ -44,7 +56,6 @@ const nav = () => {
   buttonSearch.setAttribute("aria-label", "Buscar");
 
   svgSearch.classList.add("icon-search");
-  svgSearch.setAttribute("xmlns", "http://www.w3.org/2000/svg");
   svgSearch.setAttribute("fill", "none");
   svgSearch.setAttribute("viewBox", "0 0 24 24");
   svgSearch.setAttribute("stroke-width", "2.5");
@@ -52,20 +63,22 @@ const nav = () => {
 
   pathSearch.setAttribute("stroke-linecap", "round");
   pathSearch.setAttribute("stroke-linejoin", "round");
-  pathSearch.setAttribute("d", "M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z");
+  pathSearch.setAttribute(
+    "d",
+    "M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+  );
 
   svgSearch.appendChild(pathSearch);
   buttonSearch.appendChild(svgSearch);
-
   buscador.append(inputSearch, buttonSearch);
 
-  // Acciones (carrito)
-  navActions.className = "nav-actions";
+  // --- Acción (carrito) ---
+  navAction.className = "nav-action";
+
   cartButton.href = "#";
   cartButton.className = "cart-button";
 
   svgCart.classList.add("icon-cart");
-  svgCart.setAttribute("xmlns", "http://www.w3.org/2000/svg");
   svgCart.setAttribute("fill", "none");
   svgCart.setAttribute("viewBox", "0 0 24 24");
   svgCart.setAttribute("stroke-width", "2");
@@ -73,7 +86,10 @@ const nav = () => {
 
   pathCart.setAttribute("stroke-linecap", "round");
   pathCart.setAttribute("stroke-linejoin", "round");
-  pathCart.setAttribute("d", "M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c.61 0 1.121-.448 1.121-1.002L18.15 8.224a1.06 1.06 0 00-1.002-1.06H6.108l-1.13-4.24a1.06 1.06 0 00-1.002-1.06H2.25v1.5zM16.5 18.75a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM8.25 18.75a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z");
+  pathCart.setAttribute(
+    "d",
+    "M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c.61 0 1.121-.448 1.121-1.002L18.15 8.224a1.06 1.06 0 00-1.002-1.06H6.108l-1.13-4.24a1.06 1.06 0 00-1.002-1.06H2.25v1.5zM16.5 18.75a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM8.25 18.75a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+  );
 
   svgCart.appendChild(pathCart);
 
@@ -84,20 +100,29 @@ const nav = () => {
   cartBadge.textContent = "3";
 
   cartButton.append(svgCart, cartText, cartBadge);
-  navActions.appendChild(cartButton);
+  navAction.appendChild(cartButton);
 
-  // Hamburguesa
+  // --- Hamburguesa ---
   hamburger.className = "hamburger-menu";
   hamburger.id = "hamburger-menu";
-  bar1.className = "bar";
-  bar2.className = "bar";
-  bar3.className = "bar";
+  [bar1, bar2, bar3].forEach((bar) => (bar.className = "bar"));
   hamburger.append(bar1, bar2, bar3);
 
-  // Ensamblar todo
-  navar.append(logoContainer, buscador, navActions, hamburger);
+  hamburger.addEventListener("click", function () {
+    this.classList.toggle("active");
+  });
+
+  // --- Ensamblar todo ---
+  navar.append(logoContainer, buscador, navAction, hamburger);
+
+  // --- Inicializar modal del carrito ---
+  requestAnimationFrame(() => {
+    const miCarrito = CartModal();
+    miCarrito.init(".nav-action", "body");
+  });
 
   return navar;
 };
 
 export default nav;
+
